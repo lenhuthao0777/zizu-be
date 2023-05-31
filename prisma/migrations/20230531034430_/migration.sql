@@ -1,0 +1,12 @@
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "createAt" DROP NOT NULL,
+ALTER COLUMN "updateAt" DROP NOT NULL;
+
+-- CreateTable
+CREATE TABLE "Image" (
+    "id" TEXT NOT NULL,
+    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updateAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Image_pkey" PRIMARY KEY ("id")
+);
