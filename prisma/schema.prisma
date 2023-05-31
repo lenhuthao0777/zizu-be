@@ -37,18 +37,18 @@ model Profile {
 
 model Post {
   id        String     @id @default(uuid())
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  createdAt DateTime?   @default(now())
+  updatedAt DateTime?   @updatedAt
   title     String     @db.VarChar(255)
   content   String?
-  published Boolean    @default(false)
+  published Boolean?    @default(false)
   author    User       @relation(fields: [authorId], references: [id])
   authorId  String
   PostLike  PostLike[]
-  image     Image?
+  file     File?
 }
 
-model Image {
+model File {
   id       String   @id @default(uuid())
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt

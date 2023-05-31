@@ -1,3 +1,4 @@
+import { PostModule } from './v1/post/post.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -14,6 +15,7 @@ import { ProfileModule } from './v1/profile/profile.module';
     UserModule,
     AuthModule,
     ProfileModule,
+    PostModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

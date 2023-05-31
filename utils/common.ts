@@ -1,5 +1,5 @@
-export const Res = (code: number, status: string, data: any) => {
-  return {
-    code,
-  };
-};
+// export const Res = (status: number, status: string, data: any) => {
+//   return {
+//     status,
+//   };
+// };

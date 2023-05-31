@@ -10,8 +10,8 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
-  await app.listen(config.get('PORT'));
+  app.enableCors();
 
-  // console.log('app listen port', config.get('PORT'));
+  await app.listen(config.get('PORT'));
 }
 bootstrap();

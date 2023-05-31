@@ -9,7 +9,7 @@ export class ProfileService {
     try {
       const data = await this.prisma.profile.create({ data: createProfileDto });
       return {
-        code: HttpStatus.CREATED,
+        status: HttpStatus.CREATED,
         data,
         message: 'Create profile success!',
       };

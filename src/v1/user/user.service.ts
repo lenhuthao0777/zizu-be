@@ -11,7 +11,7 @@ export class UserService {
         select: { email: true, name: true, createAt: true, updateAt: true },
       });
       return {
-        code: HttpStatus.OK,
+        status: HttpStatus.OK,
         data,
         message: 'Get User Success!',
       };
@@ -25,7 +25,7 @@ export class UserService {
       const data = await this.prisma.user.delete({ where: { id } });
 
       return {
-        code: HttpStatus.OK,
+        status: HttpStatus.OK,
         data: {
           id: data?.id,
           email: data?.email,

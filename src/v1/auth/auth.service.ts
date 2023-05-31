@@ -34,7 +34,7 @@ export class AuthService {
       const num = 10;
       if (user) {
         return {
-          code: HttpStatus.BAD_REQUEST,
+          status: HttpStatus.BAD_REQUEST,
           message: 'User is valid',
         };
       } else {
@@ -45,7 +45,7 @@ export class AuthService {
         });
 
         return {
-          code: HttpStatus.CREATED,
+          status: HttpStatus.CREATED,
           data: {
             email: data?.email,
             name: data?.name,
@@ -55,7 +55,7 @@ export class AuthService {
       }
     } catch (error) {
       return {
-        code: HttpStatus.BAD_REQUEST,
+        status: HttpStatus.BAD_REQUEST,
         error,
       };
     }
@@ -81,7 +81,7 @@ export class AuthService {
         response.cookie('token', token);
 
         return response.send({
-          code: HttpStatus.OK,
+          status: HttpStatus.OK,
           data: {
             token: token,
           },
@@ -90,7 +90,7 @@ export class AuthService {
       }
     } catch (error) {
       return {
-        code: HttpStatus.BAD_REQUEST,
+        status: HttpStatus.BAD_REQUEST,
         error,
       };
     }
@@ -103,7 +103,7 @@ export class AuthService {
       });
 
       return {
-        code: HttpStatus.OK,
+        status: HttpStatus.OK,
         data: {
           name: user.name,
           email: user.email,
