@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -25,8 +26,11 @@ export class PostController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-    return this.postService.findAll();
+  findAll(@Query() query: { perPage: string; pageSize: string }) {
+    return this.postService.findAll({
+      pageSize: +query.pageSize,
+      perPage: +query.perPage,
+    });
   }
 
   @UseGuards(JwtAuthGuard)
