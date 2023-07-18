@@ -23,11 +23,11 @@ export class ProfileController {
     return this.profileService.create(createProfileDto);
   }
 
-  // @UseGuards(AuthGuard)
-  // @Get()
-  // findAll() {
-  //   return this.profileService.findAll();
-  // }
+  @UseGuards(AuthGuard)
+  @Get()
+  findAll() {
+    return this.profileService.findAll();
+  }
 
   @UseGuards(AuthGuard)
   @Get(':id')

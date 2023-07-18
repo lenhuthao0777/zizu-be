@@ -5,6 +5,7 @@ import { User } from '../user/entities/user.entity';
 import { hash, compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
+import { TResponse } from 'utils/common.type';
 
 @Injectable()
 export class AuthService {
@@ -27,11 +28,17 @@ export class AuthService {
     return null;
   }
 
-  async register(dto: RegisterDto) {
+  // Register
+  async register(
+    dto: RegisterDto,
+  ): Promise<TResponse<{ email: string; name: string }>> {
     try {
-      const user: User = await this.validateUser(dto);
+      const user: User = await this.prisma.user.findUnique({
+        where: { email: dto.email },
+      });
 
       const num = 10;
+
       if (user) {
         return {
           status: HttpStatus.BAD_REQUEST,
@@ -39,11 +46,9 @@ export class AuthService {
         };
       } else {
         const hashPassword: string = await hash(dto.password, num);
-
         const data = await this.prisma.user.create({
           data: { ...dto, password: hashPassword },
         });
-
         return {
           status: HttpStatus.CREATED,
           data: {
@@ -56,50 +61,52 @@ export class AuthService {
     } catch (error) {
       return {
         status: HttpStatus.BAD_REQUEST,
-        error,
+        message: error,
       };
     }
   }
 
+  // Login
   async login(
     userInfo: { email: string; password: string },
-    request: Request,
     response: Response,
-  ) {
+  ): Promise<TResponse<{ token: string }> | any> {
     try {
-      const user: User = await this.validateUser(userInfo);
-
-      const payload = {
-        name: user.name,
-        email: user.email,
-        role: 1,
-      };
-
-      const token = await this.jwt.signAsync(payload);
+      const user: User | null = await this.validateUser(userInfo);
 
       if (user) {
+        const payload = {
+          name: user.name,
+          email: user.email,
+          role: 1,
+        };
+        const token = await this.jwt.signAsync(payload);
         response.cookie('token', token);
-
         return response.send({
           status: HttpStatus.OK,
           data: {
             token: token,
+            email: user.email,
+            name: user.name,
+            id: user.id,
           },
           message: 'Login success!',
         });
+      } else {
+        throw new Error();
       }
     } catch (error) {
-      return {
+      return response.send({
         status: HttpStatus.BAD_REQUEST,
-        error,
-      };
+        message: 'Email or Password is incorrect!',
+      });
     }
   }
 
-  async me(email: string) {
+  async me(id: string) {
     try {
       const user: User = await this.prisma.user.findUnique({
-        where: { email },
+        where: { id },
       });
 
       return {
@@ -115,8 +122,12 @@ export class AuthService {
     }
   }
 
+  // Logout
   logout(res: Response) {
     res.clearCookie('token');
-    return res.send('Logout success!');
+    return res.send({
+      status: 200,
+      message: 'Logout success!',
+    });
   }
 }

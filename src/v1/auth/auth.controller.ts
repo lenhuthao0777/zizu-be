@@ -4,6 +4,7 @@ import {
   Post,
   Body,
   Query,
+  Param,
   Req,
   Res,
   UseGuards,
@@ -24,12 +25,8 @@ export class AuthController {
   }
 
   @Post('login')
-  login(
-    @Body() loginDto: LoginDto,
-    @Req() request: Request,
-    @Res() response: Response,
-  ) {
-    return this.authService.login(loginDto, request, response);
+  login(@Body() loginDto: LoginDto, @Res() response: Response) {
+    return this.authService.login(loginDto, response);
   }
 
   @Get('logout')
@@ -38,8 +35,8 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':email')
-  me(@Query('email') email: string) {
-    return this.authService.me(email);
+  @Get('me/:id')
+  me(@Param('id') id: string) {
+    return this.authService.me(id);
   }
 }
