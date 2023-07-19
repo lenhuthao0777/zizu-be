@@ -7,6 +7,7 @@ import { PrismaService } from './prisma.service';
 import { ProfileModule } from './v1/profile/profile.module';
 import { SubredditModule } from './v1/subreddit/subreddit.module';
 import { SubscriptionModule } from './v1/subscription/subscription.module';
+import { FileModule } from './v1/file/file.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -15,6 +16,7 @@ import { SubscriptionModule } from './v1/subscription/subscription.module';
     UserModule,
     AuthModule,
     ProfileModule,
+    FileModule,
     PostModule,
     SubredditModule,
     SubscriptionModule,

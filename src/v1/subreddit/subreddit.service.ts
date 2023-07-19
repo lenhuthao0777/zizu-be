@@ -69,6 +69,27 @@ export class SubredditService {
     }
   }
 
+  async findByName(name: string): Promise<TResponse<any>> {
+    try {
+      const res = this.prisma.subreddit.findFirst({
+        where: {
+          name,
+        },
+      });
+
+      return {
+        status: HttpStatus.OK,
+        data: res,
+        message: 'Get subreddit success!',
+      };
+    } catch (error) {
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: error,
+      };
+    }
+  }
+
   async findOne(name: string): Promise<TResponse<Subreddit>> {
     try {
       const data = await this.prisma.subreddit.findFirst({

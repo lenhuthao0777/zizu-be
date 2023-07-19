@@ -31,6 +31,11 @@ export class SubredditController {
     return this.subredditService.findOne(name);
   }
 
+  @Get('get-by-name/:name')
+  findByName(@Param('name') name: string) {
+    return this.subredditService.findOne(name);
+  }
+
   @Put(':id')
   update(
     @Param('id') id: string,

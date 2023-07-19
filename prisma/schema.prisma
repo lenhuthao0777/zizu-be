@@ -64,24 +64,28 @@ model Role {
 }
 
 model Profile {
-  id       String     @id @default(uuid())
-  bio      String?
-  user     User       @relation(fields: [userId], references: [id])
-  userId   String     @unique
+  id     String  @id @default(uuid())
+  bio    String?
+  user   User    @relation(fields: [userId], references: [id])
+  userId String  @unique
   // PostLike PostLike[]
 }
 
 model File {
-  id       String   @id @default(uuid())
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
-  postId   String   @unique
-  post     Post     @relation(fields: [postId], references: [id])
+  id           String   @id @default(uuid())
+  fieldname    String?
+  originalname String?
+  path         String?
+  size         Int?
+  createAt     DateTime @default(now())
+  updateAt     DateTime @updatedAt
+
+  Post Post?
 }
 
 model PostLike {
-  id        String   @id @default(uuid())
-  createAt  DateTime @default(now())
+  id       String   @id @default(uuid())
+  createAt DateTime @default(now())
   // postId    String
   // post      Post     @relation(fields: [postId], references: [id])
   // profileId String
@@ -121,7 +125,8 @@ model Post {
   author      User      @relation(fields: [authorId], references: [id])
   authorId    String
   // postLike    PostLike[]
-  file        File?
+  file        File      @relation(fields: [fileId], references: [id])
+  fileId      String    @unique
   subreddit   Subreddit @relation(fields: [subredditId], references: [id])
   subredditId String
   comments    Comment[]
