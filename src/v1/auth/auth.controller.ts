@@ -29,6 +29,7 @@ export class AuthController {
     return this.authService.login(loginDto, response);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('logout')
   logout(@Res() res: Response) {
     return this.authService.logout(res);
